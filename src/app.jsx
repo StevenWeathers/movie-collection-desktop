@@ -1,5 +1,17 @@
 import React from 'react'
 import Wreck from 'wreck'
+import {
+  Card,
+  Row,
+  Col,
+  Layout,
+  Menu
+} from 'antd'
+
+const {
+  Header,
+  Content
+} = Layout
 
 const tmdbHost = 'http://image.tmdb.org/t/p/w154'
 
@@ -36,22 +48,42 @@ export default class App extends React.Component {
     } = this.state
 
     return (
-      <div>
-        {
-          movies.map(({
-            title,
-            tmdb_image_url,
-            slug
-          }) => (
-            <div
-              key={slug}
-            >
-              {title} <br />
-              <img src={`${tmdbHost}${tmdb_image_url}`} />
-            </div>
-          ))
-        }
-      </div>
+      <Layout className='layout'>
+        <Header>
+          <Menu
+            theme='dark'
+            mode='horizontal'
+            defaultSelectedKeys={['1']}
+            style={{ lineHeight: '64px' }}
+          >
+            <Menu.Item key='1'>MyMovies</Menu.Item>
+          </Menu>
+        </Header>
+        <Content style={{ padding: '0 50px' }}>
+          <div style={{ background: '#fff', padding: 24 }}>
+            <Row gutter={16}>
+              {
+                movies.map(({
+                  title,
+                  tmdb_image_url,
+                  slug
+                }) => (
+                  <Col
+                    span={6}
+                    key={slug}
+                  >
+                    <Card
+
+                      title={title} extra={<a href={slug}>View</a>}>
+                      <img src={`${tmdbHost}${tmdb_image_url}`} />
+                    </Card>
+                  </Col>
+                ))
+              }
+            </Row>
+          </div>
+        </Content>
+      </Layout>
     )
   }
 }
